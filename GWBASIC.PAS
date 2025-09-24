@@ -215,37 +215,37 @@ End;
 
 Function GetErrorMessage(Code:Word):String;Begin
  Case Code of
-  0:GetErrorMessage:='';
-  2:GetErrorMessage:='Fichier introuvable';
-  3:GetErrorMessage:='Chemin introuvable';
-  4:GetErrorMessage:='Trop de fichiers ouvert';
-  5:GetErrorMessage:='Acces refuse';
-  6:GetErrorMessage:='Handle de fichier invalide';
-  12:GetErrorMessage:='Mode d''acces sur disque invalide';
-  15:GetErrorMessage:='Num�ro de disque invalide';
-  16:GetErrorMessage:='Impossible de supprimer le r�pertoire';
-  17:GetErrorMessage:='Impossible de renommer sur plusieurs volumes';
-  100:GetErrorMessage:='Erreur de lecture � partir du disque';
-  101:GetErrorMessage:='Erreur d''ecriture sur le disque';
-  102:GetErrorMessage:='Fichier non attribue';
-  103:GetErrorMessage:='Le fichier n''est pas ouvert';
-  104:GetErrorMessage:='Le fichier n''est pas ouvert � l''entree';
-  105:GetErrorMessage:='Le fichier n''est pas ouvert � la sortie';
-  106:GetErrorMessage:='Numero invalide';
-  150:GetErrorMessage:='Disque protege en ecriture';
-  151:GetErrorMessage:='Peripherique est inconnu';
-  152:GetErrorMessage:='Disque pas pret';
-  153:GetErrorMessage:='Commande inconnue';
-  154:GetErrorMessage:='Echec de verification CRC';
-  155:GetErrorMessage:='Disque invalide';
-  156:GetErrorMessage:='Erreur de recherche sur disque';
-  157:GetErrorMessage:='Type de media invalide';
-  158:GetErrorMessage:='Secteur introuvable';
-  159:GetErrorMessage:='L''imprimante n''a plus de papier';
-  160:GetErrorMessage:='Erreur d''ecriture sur le peripherique';
-  161:GetErrorMessage:='Erreur de lecture sur le peripherique';
-  162:GetErrorMessage:='Defaillance materielle';
-  Else GetErrorMessage:='Erreur inconnue';
+	0:GetErrorMessage := ''; 
+	2:GetErrorMessage := 'File not found'; 
+	3:GetErrorMessage := 'Path not found'; 
+	4:GetErrorMessage := 'Too many files open'; 
+	5:GetErrorMessage := 'Access denied'; 
+	6:GetErrorMessage := 'Invalid file handle'; 
+	12:GetErrorMessage := 'Invalid disk access mode'; 
+	15:GetErrorMessage := 'Invalid disk number'; 
+	16:GetErrorMessage := 'Unable to delete directory'; 
+	17:GetErrorMessage := 'Unable to rename across multiple volumes'; 
+	100:GetErrorMessage := 'Error reading from disk'; 
+	101:GetErrorMessage := 'Disk write error'; 
+	102:GetErrorMessage := 'Unassigned file'; 
+	103:GetErrorMessage := 'The file is not open'; 
+	104:GetErrorMessage := 'The file is not open for input'; 
+	105:GetErrorMessage := 'The file is not open for output'; 
+	106:GetErrorMessage := 'Invalid number'; 
+	150:GetErrorMessage := 'Write-protected disk'; 
+	151:GetErrorMessage := 'Peripheral is unknown'; 
+	152:GetErrorMessage := 'Disc not ready'; 
+	153:GetErrorMessage := 'Unknown command'; 
+	154:GetErrorMessage := 'CRC verification failure'; 
+	155:GetErrorMessage := 'Invalid disk'; 
+	156:GetErrorMessage := 'Disk seek error'; 
+	157:GetErrorMessage := 'Invalid media type'; 
+	158:GetErrorMessage := 'Sector not found'; 
+	159:GetErrorMessage := 'The printer is out of paper'; 
+	160:GetErrorMessage := 'Write error on device'; 
+	161:GetErrorMessage := 'Read error on device'; 
+	162:GetErrorMessage := 'Hardware failure'; 
+	else GetErrorMessage := 'Unknown error';
  End;
 End;
 
@@ -286,7 +286,7 @@ Procedure HomeMessage;Begin
  ShowFunctionKey;
  Window(1,1,80,24);
  WriteLn('GW-BASIC Clone ',Version);
- WriteLn('Licence libre et open source MIT 2021, 2022, 2024');
+ WriteLn('MIT Free and Open Source License 2021, 2022, 2024');
 End;
 
 Function ExtractCommand:Byte;
@@ -319,7 +319,7 @@ Begin
  End;
 End;
 
- { Traitement des variables }
+ { Processing variables }
 Function VariableExist(S:String):Boolean;
 Var
  I:Integer;
@@ -513,7 +513,7 @@ Begin
  NumberVariable:=0;
 End;
 
- { Traitement de la liste }
+ { List processing }
 Function AddLine(S:String):Boolean;
 Var
  P:StrPointer;
@@ -591,7 +591,7 @@ Begin
  End;
 End;
 
- { Evaluation d'expression (Infix to PostFix ) }
+{Expression evaluation (Infix to PostFix)}
 Var
  Stack:Array[0..100]of Char;
  TopOfStack:Byte;
@@ -600,7 +600,7 @@ Var
 
 Procedure StackPushChar(C:Char);Begin
  If TopOfStack>=High(Stack)Then Begin
-  WriteLn('Pile pleine!');
+  WriteLn('Stack full!');
   Halt;
  End
   Else
@@ -618,7 +618,7 @@ Begin
  Dec(TopOfStack);
  If TopOfStack<1Then Begin
   StackPop:='';
-  WriteLn('Pile vide');
+  WriteLn('Stack empty!');
   Halt;
  End
   Else
@@ -631,7 +631,7 @@ End;
 
 Procedure ResultStackPush(C:Real);Begin
  If TopOfStackInt>=High(ResultStack)Then Begin
-  WriteLn('Pile pleine!');
+  WriteLn('Stack full!');
   Halt;
  End
   Else
@@ -645,7 +645,7 @@ Function ResultStackPop:Real;Begin
  Dec(TopOfStackInt);
  If TopOfStackInt<1Then Begin
   ResultStackPop:=-1.0;
-  WriteLn('Pile vide');
+  WriteLn('Stack empty!');
   Exit;
  End
   Else
@@ -797,13 +797,13 @@ Restart:
     Case J of
      3:Begin{CHR$}
       If CurrLine[CurrPos]<>'('Then Begin
-       WriteLn('"(" attendu');
+       WriteLn('"(" expected');
        Exit;
       End;
       Inc(CurrPos);
       _Result:=GetNumberValue(1);
       If CurrLine[CurrPos]<>')'Then Begin
-       WriteLn('")" attendu');
+       WriteLn('")" expected');
        Exit;
       End;
       Inc(CurrPos);
@@ -876,7 +876,7 @@ Begin
     End;
    End
     Else
-   Begin { Fonction ?}
+   Begin { Function ?}
     FunctionFound:=False;
     For J:=Low(FunctionList)to High(FunctionList)do Begin
      If FunctionList[J]=VarName Then Begin
@@ -884,7 +884,7 @@ Begin
       Case J of
        0:Begin{ABS}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -894,14 +894,14 @@ Begin
                              Else Str(_Result,Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
        End;
        1:Begin{ASC}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -912,14 +912,14 @@ Begin
         Str(_Result:0:0,Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
        End;
        2:Begin{ATN}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -928,7 +928,7 @@ Begin
         Str(ArcTan(_Result),Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
@@ -946,7 +946,7 @@ Begin
        End;
        7:Begin{COS}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -955,7 +955,7 @@ Begin
         Str(Cos(_Result),Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
@@ -976,7 +976,7 @@ Begin
        End;
        15:Begin{EXP}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -985,14 +985,14 @@ Begin
         Str(Exp(_Result),Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
        End;
        16:Begin{FIX}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -1001,7 +1001,7 @@ Begin
         Str(_Result:0:0,Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
@@ -1018,7 +1018,7 @@ Begin
        End;
        22:Begin{INT}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -1027,7 +1027,7 @@ Begin
         Str(_Result:0:0,Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
@@ -1036,7 +1036,7 @@ Begin
        End;
        24:Begin{LEN}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -1047,7 +1047,7 @@ Begin
         Str(_Result:0:0,Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
@@ -1056,7 +1056,7 @@ Begin
        End;
        26:Begin{LOG}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -1065,7 +1065,7 @@ Begin
         Str(Ln(_Result),Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
@@ -1098,7 +1098,7 @@ Begin
        End;
        40:Begin{SIN}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -1107,14 +1107,14 @@ Begin
         Str(Sin(_Result),Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
        End;
        41:Begin{SQR}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -1123,7 +1123,7 @@ Begin
         Str(Sqrt(_Result),Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
@@ -1136,7 +1136,7 @@ Begin
        End;
        45:Begin{TAN}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -1145,7 +1145,7 @@ Begin
         Str(Tan(_Result),Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
@@ -1162,7 +1162,7 @@ Begin
        End;
        51:Begin{VAL}
         If Infix[I]<>'('Then Begin
-         WriteLn('"(" attendu');
+         WriteLn('"(" expected');
          Exit;
         End;
         Inc(I);
@@ -1172,7 +1172,7 @@ Begin
         Str(_Result,Value);
         I:=CurrPos;
         If Infix[I]<>')'Then Begin
-         WriteLn('")" attendu');
+         WriteLn('")" expected');
          Exit;
         End;
         Inc(I);
@@ -1254,7 +1254,7 @@ Begin
  Until I>Length(Infix);
  CurrPos:=I;
  While(TopOfStack>MinTopOfStack)do PostFix:=PostFix+StackPop;
-  { Transformation en POSTFIX }
+  { Transformation to POSTFIX }
  I:=1;
  Repeat
   If PostFix[I]in['*','+','-','/','^']Then Begin
@@ -1443,13 +1443,13 @@ Begin
     Line2(XL,YL-a);
     SetPos(XL,YL-a)
    End;
-' ',';':;{C'est 2 caractSres ne change rien en soit, donc...pas d'arr^t!}
+' ',';':;{It's 2 characters doesn't change anything in itself, so...no stopping!}
    Else Exit;
   End
  End
 End;
 
- { Traitement des commandes }
+ { Order processing }
 Procedure AutoCommand;Begin
  SkipSpace;
  If GetSeparator in['0'..'9']Then Begin
@@ -1568,7 +1568,7 @@ Begin
   FindNext(Info);
  End;
  WriteLn;
- WriteLn(' ',DiskFree(Byte(CurrDrive)-64):10,' octet(s) de libre');
+ WriteLn(' ',DiskFree(Byte(CurrDrive)-64):10,' free byte(s)');
  WriteLn;
 End;
 
@@ -1578,7 +1578,7 @@ Var
 Begin
  ForCommand:=False;
  If ForPos>=High(ForStack)Then Begin
-  WriteLn('Pile de FOR pleine.');
+  WriteLn('FOR stack full.');
   Exit;
  End;
  Inc(ForPos);
@@ -1588,7 +1588,7 @@ Begin
  ForStack[ForPos].VarName:=Copy(GetVariableName,1,20);
  SkipSpace;
  If GetSeparator<>'='Then Begin
-  WriteLn('"=" attendu.');
+  WriteLn('"=" expected.');
   Exit;
  End;
  Inc(CurrPos);
@@ -1599,7 +1599,7 @@ Begin
   AddVariableReal(ForStack[ForPos].VarName,Trunc(R1));
  SkipSpace;
  If StrToUpper(ReadWord)<>'TO'Then Begin
-  WriteLn('Mot r�serv� "TO" attendu');
+  WriteLn('Reserved word "TO" expected');
   Exit;
  End;
  SkipSpace;
@@ -1615,7 +1615,7 @@ Var
 Begin
  GosubCommand:=True;
  If GosubPos>=High(GosubStack)Then Begin
-  WriteLn('Pile de GOSUB pleine !');
+  WriteLn('Full stack of GOSUB!');
   GosubCommand:=False;
   Exit;
  End;
@@ -1646,7 +1646,7 @@ Begin
    Exit;
   End;
  End;
- WriteLn('Etiquette introuvable');
+ WriteLn('Label not found');
  GosubCommand:=False;
 End;
 
@@ -1678,7 +1678,7 @@ Begin
    Exit;
   End;
  End;
- WriteLn('Etiquette introuvable');
+ WriteLn('Label not found');
  GotoCommand:=False;
 End;
 
@@ -1732,7 +1732,7 @@ Begin
   If Compare='='Then ResultCmp:=S1=S2
    Else
   Begin
-   WriteLn('Erreur d''operateur de comparaison');
+   WriteLn('Comparison operator error');
    Exit;
   End;
  End
@@ -1772,7 +1772,7 @@ Begin
   If Compare='='Then ResultCmp:=R1=R2
    Else
   Begin
-   WriteLn('Erreur d''op�rateur de comparaison');
+   WriteLn('Comparison operator error');
    Exit;
   End;
  End;
@@ -1787,7 +1787,7 @@ Begin
   Inc(CurrPos);
  End;
  If StrToUpper(S)<>'THEN'Then Begin
-  WriteLn('Mot res�rv� THEN introuvable');
+  WriteLn('Reserved word THEN not found');
   Exit;
  End;
  While CurrPos<Length(CurrLine) do Begin
@@ -1825,7 +1825,7 @@ Begin
   ShowFunctionKey;
  End
   Else
- WriteLn('Mot non reconnu');
+ WriteLn('Unrecognized word');
 End;
 
 Procedure KillCommand;
@@ -2051,7 +2051,7 @@ Var
   {$I-}Assign(Source,SourceName);
   Reset(Source,1);{$I+}
   If IoResult<>0Then Begin
-   WriteLn('Fichier source introuvable');
+   WriteLn('Source file not found');
    Exit;
   End;
   BlockRead(Source,Buffer,3,ByteReaded);
@@ -2085,7 +2085,7 @@ Var
      Case B of
       0:Begin
        If Not AddLine(LTrim(S))Then Begin
-        WriteLn('Manque de m�moire');
+        WriteLn('Out of memory');
         Break;
        End;
        S:='';
@@ -2392,15 +2392,15 @@ Begin
    If Not LoadBASIC(FileName)Then Begin
     {$I-}Assign(FileLoad,FileName);
     Reset(FileLoad);{$I+}
-    If IoResult<>0Then Begin
-     WriteLn('Fichier introuvable');
+    If IoResult<>0 Then Begin
+     WriteLn('File not found');
      Exit;
     End;
      NewCommand;
     While Not EOF(FileLoad) do Begin
      ReadLn(FileLoad,S);
      If Not AddLine(LTrim(S))Then Begin
-      WriteLn('Manque de m�moire');
+      WriteLn('Out of memory');
       Break;
      End;
     End;
@@ -2409,10 +2409,10 @@ Begin
    ResortList;
   End
    Else
-  WriteLn('Nom du fichier absent');
+  WriteLn('Missing file name');
  End
   Else
- WriteLn('Chaine de caract�res attendu');
+ WriteLn('Expected string');
 End;
 
 Procedure LocateCommand;
@@ -2424,7 +2424,7 @@ Begin
   Inc(CurrPos);
   X:=GetNumberValue(1);
   If(X>80.0)or(X<0.0)Then Begin
-   WriteLn('Depassement d''intervalle');
+   WriteLn('Interval overflow');
    Exit;
   End;
   GotoXY(Trunc(X),Trunc(Y));
@@ -2512,7 +2512,7 @@ Var
 Begin
  NextCommand:=False;
  If ForPos=0 Then Begin
-  WriteLn('NEXT sans FOR');
+  WriteLn('NEXT without FOR');
   Exit;
  End;
  NextCurrPos:=CurrPos;
@@ -2569,7 +2569,7 @@ End;
 
 Procedure ReturnCommand;Begin
  If(GosubPos=0)Then Begin
-  WriteLn('RETURN sans GOSUB');
+  WriteLn('RETURN without GOSUB');
   Exit;
  End;
  CurrPos:=GosubStack[GosubPos].Col;
@@ -2620,13 +2620,13 @@ Begin
  If GetSeparator='"'Then Begin
   FileName:=GetStringValue;
   If FileName=''Then Begin
-   WriteLn('Sauvegarde avec un nom vide impossible');
+   WriteLn('Cannot save with empty name');
    Exit;
   End;
   {$I-}Assign(Target,FileName);
   Rewrite(Target);{$I+}
-  If IoResult<>0Then Begin
-   WriteLn('Impossible de creer le fichier');
+  If IoResult<>0 Then Begin
+   WriteLn('Unable to create file');
    Exit;
   End;
   If NumberLine>0Then Begin
@@ -2640,7 +2640,7 @@ Begin
    {$I-}Assign(Target,FileName);
    Rewrite(Target);{$I+}
    If IoResult<>0Then Begin
-    WriteLn('Impossible de creer le fichier');
+    WriteLn('Unable to create file');
     Exit;
    End;
    If NumberLine>0Then Begin
@@ -2649,7 +2649,7 @@ Begin
    Close(Target);
   End
    Else
-  WriteLn('Sauvegarde sans nom impossible');
+  WriteLn('Unable to save without a name');
  End;
 End;
 
@@ -2682,7 +2682,7 @@ Begin
    End
     Else
    Begin
-    WriteLn('Erreur graphique : ',GraphErrorMsg(ErrCode));
+    WriteLn('Graphics error : ',GraphErrorMsg(ErrCode));
     Halt;
    End;
   End;
@@ -2715,7 +2715,7 @@ Begin
   40:TextMode(C40);
   80:TextMode(C80);
   Else Begin
-   WriteLn('Valeur invalide');
+   WriteLn('Invalid value');
    WidthCommand:=False;
   End;
  End;
@@ -2829,7 +2829,7 @@ Begin
  End;
  SkipSpace;
  If CurrLine[CurrPos]=''''Then Begin
-  { C'est un commentaire, on est fait rien }
+  { It's a comment, we did nothing }
  End
   Else
  Repeat
@@ -2984,19 +2984,19 @@ Begin
     End;
    End
     Else
-   If(InList)Then WriteLn('Commande non reconnu � la ligne ',CurrNumberLine,': ',CurrCommand)
-             Else WriteLn('Commande non reconnu');
+   If(InList)Then WriteLn('Unrecognized command on line ',CurrNumberLine,': ',CurrCommand)
+             Else WriteLn('Command not recognized');
    Exit;
   End;
   If(NoImplementation)Then Begin
-   WriteLn('Cette commande n''a pas �t� impl�ment� : ',CurrCommand);
+   WriteLn('This command has not been implemented : ',CurrCommand);
    Exit;
   End;
   While(CurrLine[CurrPos]in[' ',':'])and(CurrPos<=Length(CurrLine)) do Inc(CurrPos);
   If CurrPos>=Length(CurrLine)Then Break;
   If Not(CurrLine[CurrPos]in['A'..'Z','a'..'z','_'])Then Begin
-   If(InList)Then WriteLn('Erreur de syntaxe � la position ',CurrPos,' de la ligne ',CurrNumberLine)
-             Else WriteLn('Erreur de syntaxe � la position ',CurrPos);
+   If(InList)Then WriteLn('Syntax error at position ',CurrPos,' of the line ',CurrNumberLine)
+             Else WriteLn('Syntax error at position ',CurrPos);
    Exit;
   End;
  Until CurrPos>Length(CurrLine);
@@ -3010,18 +3010,18 @@ BEGIN
   {$ENDIF}
  {$ENDIF}
  If(ParamStr(1)='/?')or(ParamStr(1)='--help')or(ParamStr(1)='-h')Then Begin
-  WriteLn('GWBASIC : Cette commande permet de lancer l''interpreteur de GWBASIC.');
+  WriteLn('GWBASIC : This command launches the GWBASIC interpreter.');
   WriteLn;
-  WriteLn('Syntaxe : GWBASIC [fichier]');
+  WriteLn('Syntax: GWBASIC [file]');
   WriteLn;
-  WriteLn(' fichier   Ce param�tre permet d''indiquer le nom du fichier BASIC.');
+  WriteLn('file This parameter allows you to specify the name of the BASIC file.');
  End
   Else
  If ParamStr(1)='--version'Then Begin
-  WriteLn('GWBASIC ',Version,' - Clone Pascal de corail, MS-DOS-0, GWBASIC-0');
-  WriteLn('Licence MIT');
+  WriteLn('GWBASIC ',Version,' - Clone Pascal from Coral, MS-DOS-0, GWBASIC-0');
+  WriteLn('MIT License');
   WriteLn;
-  WriteLn('�crit par Sylvain Maltais');
+  WriteLn('Written by Sylvain Maltais');
  End
   Else
  Begin
@@ -3055,11 +3055,11 @@ BEGIN
   IsAuto:=False;
   IsEdit:=False;
   Repeat
-   If Not(LineEmpty)Then WriteLn('Ok');
+   If Not(LineEmpty)Then WriteLn('OK');
    ReadLine(CurrLine);
    LineEmpty:=CurrLine='';
    If CurrLine=''Then LineEmpty:=True Else
-   If(IsNumberWord(Trim(CurrLine)))Then Begin { Supprime un num�ro de ligne ? }
+   If(IsNumberWord(Trim(CurrLine)))Then Begin { Delete a line number? }
     CurrPos:=1;
     CurrLine:=Trim(CurrLine);
     DeleteLineNumber(ReadInteger);
