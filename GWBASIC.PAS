@@ -222,15 +222,15 @@ Function GetErrorMessage(Code:Word):String;Begin
   5:GetErrorMessage:='Acces refuse';
   6:GetErrorMessage:='Handle de fichier invalide';
   12:GetErrorMessage:='Mode d''acces sur disque invalide';
-  15:GetErrorMessage:='Num‚ro de disque invalide';
-  16:GetErrorMessage:='Impossible de supprimer le r‚pertoire';
+  15:GetErrorMessage:='Numï¿½ro de disque invalide';
+  16:GetErrorMessage:='Impossible de supprimer le rï¿½pertoire';
   17:GetErrorMessage:='Impossible de renommer sur plusieurs volumes';
-  100:GetErrorMessage:='Erreur de lecture … partir du disque';
+  100:GetErrorMessage:='Erreur de lecture ï¿½ partir du disque';
   101:GetErrorMessage:='Erreur d''ecriture sur le disque';
   102:GetErrorMessage:='Fichier non attribue';
   103:GetErrorMessage:='Le fichier n''est pas ouvert';
-  104:GetErrorMessage:='Le fichier n''est pas ouvert … l''entree';
-  105:GetErrorMessage:='Le fichier n''est pas ouvert … la sortie';
+  104:GetErrorMessage:='Le fichier n''est pas ouvert ï¿½ l''entree';
+  105:GetErrorMessage:='Le fichier n''est pas ouvert ï¿½ la sortie';
   106:GetErrorMessage:='Numero invalide';
   150:GetErrorMessage:='Disque protege en ecriture';
   151:GetErrorMessage:='Peripherique est inconnu';
@@ -472,7 +472,7 @@ Begin
  GetMem(P,SizeOf(VarRec));
  P^.VarName:=Copy(StrToUpper(S),1,20);
  P^.VarType:=_String;
- GetMem(PS,SizeOf(String));
+ GetMem(PS,SizeOf(_String));
  PS^:=Value;
  P^.Variant.S:=PS;
  VarList[NumberVariable]:=P;
@@ -1599,7 +1599,7 @@ Begin
   AddVariableReal(ForStack[ForPos].VarName,Trunc(R1));
  SkipSpace;
  If StrToUpper(ReadWord)<>'TO'Then Begin
-  WriteLn('Mot r‚serv‚ "TO" attendu');
+  WriteLn('Mot rï¿½servï¿½ "TO" attendu');
   Exit;
  End;
  SkipSpace;
@@ -1772,7 +1772,7 @@ Begin
   If Compare='='Then ResultCmp:=R1=R2
    Else
   Begin
-   WriteLn('Erreur d''op‚rateur de comparaison');
+   WriteLn('Erreur d''opï¿½rateur de comparaison');
    Exit;
   End;
  End;
@@ -1787,7 +1787,7 @@ Begin
   Inc(CurrPos);
  End;
  If StrToUpper(S)<>'THEN'Then Begin
-  WriteLn('Mot res‚rv‚ THEN introuvable');
+  WriteLn('Mot resï¿½rvï¿½ THEN introuvable');
   Exit;
  End;
  While CurrPos<Length(CurrLine) do Begin
@@ -2065,7 +2065,7 @@ Var
   End
    Else
   If(Buffer[0]=$FF)Then Begin
-   If Buffer[1]=$7AThen Mode:=GWBASIC
+   If (Buffer[1]=$7A)Then Mode:=GWBASIC
                    Else Mode:=Coco1FileBAS;
   End;
   Case Mode of
@@ -2085,7 +2085,7 @@ Var
      Case B of
       0:Begin
        If Not AddLine(LTrim(S))Then Begin
-        WriteLn('Manque de m‚moire');
+        WriteLn('Manque de mï¿½moire');
         Break;
        End;
        S:='';
@@ -2400,7 +2400,7 @@ Begin
     While Not EOF(FileLoad) do Begin
      ReadLn(FileLoad,S);
      If Not AddLine(LTrim(S))Then Begin
-      WriteLn('Manque de m‚moire');
+      WriteLn('Manque de mï¿½moire');
       Break;
      End;
     End;
@@ -2412,7 +2412,7 @@ Begin
   WriteLn('Nom du fichier absent');
  End
   Else
- WriteLn('Chaine de caractŠres attendu');
+ WriteLn('Chaine de caractï¿½res attendu');
 End;
 
 Procedure LocateCommand;
@@ -2984,19 +2984,19 @@ Begin
     End;
    End
     Else
-   If(InList)Then WriteLn('Commande non reconnu … la ligne ',CurrNumberLine,': ',CurrCommand)
+   If(InList)Then WriteLn('Commande non reconnu ï¿½ la ligne ',CurrNumberLine,': ',CurrCommand)
              Else WriteLn('Commande non reconnu');
    Exit;
   End;
   If(NoImplementation)Then Begin
-   WriteLn('Cette commande n''a pas ‚t‚ impl‚ment‚ : ',CurrCommand);
+   WriteLn('Cette commande n''a pas ï¿½tï¿½ implï¿½mentï¿½ : ',CurrCommand);
    Exit;
   End;
   While(CurrLine[CurrPos]in[' ',':'])and(CurrPos<=Length(CurrLine)) do Inc(CurrPos);
   If CurrPos>=Length(CurrLine)Then Break;
   If Not(CurrLine[CurrPos]in['A'..'Z','a'..'z','_'])Then Begin
-   If(InList)Then WriteLn('Erreur de syntaxe … la position ',CurrPos,' de la ligne ',CurrNumberLine)
-             Else WriteLn('Erreur de syntaxe … la position ',CurrPos);
+   If(InList)Then WriteLn('Erreur de syntaxe ï¿½ la position ',CurrPos,' de la ligne ',CurrNumberLine)
+             Else WriteLn('Erreur de syntaxe ï¿½ la position ',CurrPos);
    Exit;
   End;
  Until CurrPos>Length(CurrLine);
@@ -3014,14 +3014,14 @@ BEGIN
   WriteLn;
   WriteLn('Syntaxe : GWBASIC [fichier]');
   WriteLn;
-  WriteLn(' fichier   Ce paramŠtre permet d''indiquer le nom du fichier BASIC.');
+  WriteLn(' fichier   Ce paramï¿½tre permet d''indiquer le nom du fichier BASIC.');
  End
   Else
  If ParamStr(1)='--version'Then Begin
   WriteLn('GWBASIC ',Version,' - Clone Pascal de corail, MS-DOS-0, GWBASIC-0');
   WriteLn('Licence MIT');
   WriteLn;
-  WriteLn('crit par Sylvain Maltais');
+  WriteLn('ï¿½crit par Sylvain Maltais');
  End
   Else
  Begin
@@ -3059,7 +3059,7 @@ BEGIN
    ReadLine(CurrLine);
    LineEmpty:=CurrLine='';
    If CurrLine=''Then LineEmpty:=True Else
-   If(IsNumberWord(Trim(CurrLine)))Then Begin { Supprime un num‚ro de ligne ? }
+   If(IsNumberWord(Trim(CurrLine)))Then Begin { Supprime un numï¿½ro de ligne ? }
     CurrPos:=1;
     CurrLine:=Trim(CurrLine);
     DeleteLineNumber(ReadInteger);
